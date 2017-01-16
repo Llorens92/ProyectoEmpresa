@@ -1,0 +1,14 @@
+.borde{   
+    height: 50px;
+    border: solid 5px black;
+}
+.sinMargen{
+    margin-right: 0px;
+    margin-left: 0px;
+}
+ul{
+    list-style-type:none;
+}
+table,td{
+    border: solid black 1px
+}
