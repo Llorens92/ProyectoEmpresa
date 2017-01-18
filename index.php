@@ -14,7 +14,7 @@ and open the template in the editor.
     </head>
     <body>
         <div class="row">
-            <div class="col-md-5"></div>
+            <div class="col-md-4"></div>
             <div class="col-md-5">
                 <h1>Bienvenido a la Empresa</h1>
             </div>
@@ -25,7 +25,7 @@ and open the template in the editor.
             <div class="col-md-8">
                 <form class="form-horizontal" action="Procesa_altaUsuario.php" method="post" id="formulario">                    
                     <div class="form-group">
-                        <label for="login" class="col-sm-2 col-md-offset-6 control-label">Login</label>
+                        <label for="login" class="col-sm-2 col-md-offset-2 control-label">Login</label>
                         <div class="col-sm-10 col-md-5">
                             <input type="text" class="form-control" id="login" placeholder="Login" name="login" onblur="validarLogin()">
                         </div>
@@ -39,14 +39,13 @@ and open the template in the editor.
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="password" class="col-sm-2 col-md-offset-6 control-label">Password</label>
-                        <div class="col-sm-10 col-md-3">
+                        <label for="password" class="col-sm-2 col-md-offset-2 control-label">Password</label>
+                        <div class="col-sm-10 col-md-5">
                             <input type="password" class="form-control" id="password" placeholder="Password" name="password">
                         </div>
                     </div>
-
                     <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10 col-md-3">
+                        <div class="col-sm-offset-2 col-sm-10 col-md-3 col-md-offset-4">
                             <button type="button" class="btn btn-default" onClick="validar()">Iniciar Sesión</button>
                         </div>
                     </div>
@@ -60,16 +59,17 @@ and open the template in the editor.
         function validarLogin() {
             $.ajax({
                 type: "POST",
-                url: "Procesa_verificarLogin.php",
+                url: "procesa/Procesa_verificarLogin.php",
                 data: {login: $("#login").val()}
             }).done(function (msg) {
                 if (msg === "true") {
                     $("#texto").text("Este login esta disponible");
                     loginRepetido = false;
-                    var elemento = document.getElementById('login');
+                    $("#verificacion").css("display","block");
                 } else {
                     $("#texto").text("Este login no esta disponible");
                     loginRepetido = true;
+                    $("#verificacion").css("display","block");
                 }
             });
         }
