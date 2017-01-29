@@ -23,11 +23,11 @@ and open the template in the editor.
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-8">
-                <form class="form-horizontal" action="Procesa_altaUsuario.php" method="post" id="formulario">                    
+                <form  onsubmit="return validar()" class="form-horizontal" action="portal.php" method="post" id="formulario">                    
                     <div class="form-group">
                         <label for="login" class="col-sm-2 col-md-offset-2 control-label">Login</label>
                         <div class="col-sm-10 col-md-5">
-                            <input type="text" class="form-control" id="login" placeholder="Login" name="login" onblur="validarLogin()">
+                            <input type="text" class="form-control" id="login" placeholder="Login" name="login">
                         </div>
                     </div>
                     <div class="form-group" id="verificacion"  style="display: none;">
@@ -46,7 +46,7 @@ and open the template in the editor.
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10 col-md-3 col-md-offset-4">
-                            <button type="button" class="btn btn-default" onClick="validar()">Iniciar Sesión</button>
+                            <button type="submit" class="btn btn-default">Iniciar Sesión</button>
                         </div>
                     </div>
 
@@ -56,20 +56,26 @@ and open the template in the editor.
         </div>
     </body>
     <script>
-        function validarLogin() {
+        function validar() {
+            var pasarPag=false;
+            validacion();
+            if($("#texto").text()==="" && $("#login").val()!=="" && $("#password").val()!==""){
+                pasarPag=true;
+            }
+            return pasarPag;
+        }
+        function validacion(){
             $.ajax({
                 type: "POST",
-                url: "procesa/Procesa_verificarLogin.php",
-                data: {login: $("#login").val()}
+                url: "procesa/Procesa_index.php",
+                data: {login: $("#login").val(), pwd: $("#password").val()}
             }).done(function (msg) {
-                if (msg === "true") {
-                    $("#texto").text("Este login esta disponible");
-                    loginRepetido = false;
-                    $("#verificacion").css("display","block");
-                } else {
-                    $("#texto").text("Este login no esta disponible");
-                    loginRepetido = true;
-                    $("#verificacion").css("display","block");
+                if (msg === "NoLogin") {
+                    $("#texto").text("El usuario introducido no existe");
+                    $("#verificacion").css("display", "block");
+                } else if (msg === "NoCoincide") {
+                    $("#texto").text("Usuario y contraseña no coinciden");
+                    $("#verificacion").css("display", "block");
                 }
             });
         }
